@@ -1,0 +1,263 @@
+<!DOCTYPE html> 
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ERP - Análise Interativa</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f9;
+      margin: 40px;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .content-box {
+      background-color: #fff;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      text-align: justify;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    form {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #eaf0f6;
+      border-radius: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #2c3e50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    button:hover {
+      background-color: #1a242f;
+    }
+
+    #diagnostico {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 10px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Análise dos Potenciais Relacionados a Eventos (ERP)</h1>
+  <h2>Comparativo de Faixas Etárias e Inserção de Dados Individuais</h2>
+
+  <div class="content-box">
+    <strong>Contexto:</strong> Este gráfico representa variações dos Potenciais Relacionados a Eventos (ERP), com foco em duas métricas principais: <strong>Latência (ms)</strong> e <strong>Amplitude (μV)</strong>. Insira os dados de uma pessoa analisada abaixo para posicioná-la no gráfico.
+  </div>
+
+  <form id="dataForm">
+    <label for="nome">Nome da Pessoa:</label>
+    <input type="text" id="nome" required>
+
+    <label for="faixa">Faixa Etária:</label>
+    <select id="faixa" required>
+      <option value="">Selecione</option>
+      <option value="15-20">15–20</option>
+      <option value="21-30">21–30</option>
+      <option value="31-40">31–40</option>
+      <option value="41-50">41–50</option>
+      <option value="51-60">51–60</option>
+      <option value="61-70">61–70</option>
+      <option value="71+">71+</option>
+    </select>
+
+    <label for="latencia">Latência (ms):</label>
+    <input type="number" id="latencia" min="200" max="500" required>
+
+    <label for="amplitude">Amplitude (μV):</label>
+    <input type="number" id="amplitude" min="0" max="20" step="0.1" required>
+
+    <button type="submit">Inserir no Gráfico</button>
+  </form>
+
+  <canvas id="erpChart" width="800" height="400"></canvas>
+
+  <div id="diagnostico"></div>
+
+  <div class="content-box">
+    <strong>Referências Bibliográficas:</strong>
+    <ul style="padding-left: 20px; text-align: justify; line-height: 1.6;">
+      <li>
+        LUCK, Steven J. <em>An Introduction to the Event-Related Potential Technique</em>. 2. ed. Cambridge: MIT Press, 2014.
+      </li>
+      <li>
+        HANDY, Todd C. (Ed.). <em>Event-Related Potentials: A Methods Handbook</em>. Cambridge: MIT Press, 2005.
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Autor: Nome do Autor: IRAÊ CÉSAR BRANDÃO - Luck Way Informática<br>
+    Data de Elaboração: 06 de Maio de 2025<br>
+    Simulação com dados baseados em literatura neurocientífica sobre ERP
+  </div>
+
+  <script>
+    const ctx = document.getElementById('erpChart').getContext('2d');
+
+    const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
+
+    const chartData = {
+      labels: faixas,
+      datasets: [
+        {
+          label: 'Latência (ms)',
+          data: [280, 250, 270, 290, 310, 340, 370],
+          borderColor: 'red',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          yAxisID: 'y1',
+          tension: 0.3,
+        },
+        {
+          label: 'Amplitude (μV)',
+          data: [12, 14, 13, 11, 10, 8, 6],
+          borderColor: 'blue',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          yAxisID: 'y2',
+          tension: 0.3,
+        }
+      ]
+    };
+
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        plugins: {
+          title: { display: false },
+          tooltip: { mode: 'nearest' }
+        },
+        scales: {
+          y1: {
+            type: 'linear',
+            position: 'left',
+            title: { display: true, text: 'Latência (ms)' },
+            min: 200,
+            max: 400
+          },
+          y2: {
+            type: 'linear',
+            position: 'right',
+            title: { display: true, text: 'Amplitude (μV)' },
+            min: 0,
+            max: 20,
+            grid: { drawOnChartArea: false }
+          }
+        }
+      }
+    };
+
+    const erpChart = new Chart(ctx, config);
+
+    document.getElementById('dataForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const faixa = document.getElementById('faixa').value;
+      const latencia = parseFloat(document.getElementById('latencia').value);
+      const amplitude = parseFloat(document.getElementById('amplitude').value);
+
+      const index = faixas.indexOf(faixa);
+      if (index === -1) {
+        alert("Faixa etária inválida!");
+        return;
+      }
+
+      erpChart.data.datasets.push({
+        label: `${nome} - Latência`,
+        data: Array(faixas.length).fill(null).map((_, i) => i === index ? latencia : null),
+        borderColor: 'green',
+        backgroundColor: 'green',
+        yAxisID: 'y1',
+        type: 'line',
+        pointStyle: 'circle',
+        pointRadius: 7,
+        showLine: false
+      });
+
+      erpChart.data.datasets.push({
+        label: `${nome} - Amplitude`,
+        data: Array(faixas.length).fill(null).map((_, i) => i === index ? amplitude : null),
+        borderColor: 'purple',
+        backgroundColor: 'purple',
+        yAxisID: 'y2',
+        type: 'line',
+        pointStyle: 'triangle',
+        pointRadius: 7,
+        showLine: false
+      });
+
+      // Diagnóstico automatizado simples
+      let diagnostico = '';
+      if (latencia > 350 || amplitude < 6) {
+        diagnostico = `Alerta: Os valores de latência (${latencia} ms) e/ou amplitude (${amplitude} μV) estão fora da faixa típica esperada. Recomendável avaliação mais aprofundada.`;
+      } else {
+        diagnostico = `Os valores de latência (${latencia} ms) e amplitude (${amplitude} μV) estão dentro dos parâmetros médios esperados para a faixa etária de ${faixa}.`;
+      }
+
+      document.getElementById('diagnostico').innerText = `Resultado para ${nome}:\n${diagnostico}`;
+
+      erpChart.update();
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
