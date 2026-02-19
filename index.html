@@ -467,25 +467,20 @@ width: 100%;
 
 <script>
 
+// ===============================
+// CONFIGURAÇÃO DO GRÁFICO
+// ===============================
 const ctx = document.getElementById('erpChart').getContext('2d');
 
 const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
 
-// ===============================
-// BANCO NORMATIVO (MÉDIA + SD)
-// ===============================
-
+// Banco normativo (média e desvio padrão)
 const bancoNormativo = {
   latenciaMedia: [280, 250, 270, 290, 310, 340, 370],
   latenciaSD:    [15, 15, 18, 20, 22, 25, 30],
-
   amplitudeMedia: [12, 14, 13, 11, 10, 8, 6],
   amplitudeSD:    [2, 2, 2, 2, 2, 1.5, 1.5]
 };
-
-// ===============================
-// CONFIGURAÇÃO DO GRÁFICO
-// ===============================
 
 const config = {
   type: 'line',
@@ -526,6 +521,8 @@ const config = {
   },
   options: {
     responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { tooltip: { mode: 'nearest' } },
     scales: {
       y1: {
         type: 'linear',
@@ -549,9 +546,8 @@ const config = {
 const erpChart = new Chart(ctx, config);
 
 // ===============================
-// EVENTO SUBMIT
+// EVENT LISTENER DO FORMULÁRIO
 // ===============================
-
 document.getElementById('dataForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -561,46 +557,36 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
   const amplitude = parseFloat(document.getElementById('amplitude').value);
 
   const index = faixas.indexOf(faixa);
+  if (index === -1) { alert("Faixa etária inválida!"); return; }
 
-  if (index === -1) {
-    alert("Faixa etária inválida!");
-    return;
-  }
+  // Atualiza linha do participante
+  erpChart.data.datasets[2].data[index] = latencia;
+  erpChart.data.datasets[3].data[index] = amplitude;
+  erpChart.update();
 
   // ===============================
-  // COMPARAÇÃO ESTATÍSTICA
+  // Diagnóstico automático
   // ===============================
-
   const mediaLat = bancoNormativo.latenciaMedia[index];
   const sdLat = bancoNormativo.latenciaSD[index];
-
   const mediaAmp = bancoNormativo.amplitudeMedia[index];
   const sdAmp = bancoNormativo.amplitudeSD[index];
 
   const zLat = (latencia - mediaLat) / sdLat;
   const zAmp = (amplitude - mediaAmp) / sdAmp;
 
-  let classificacao = "";
-  let cor = "";
+  let classificacao = "", cor = "";
 
   if (Math.abs(zLat) <= 1 && Math.abs(zAmp) <= 1) {
     classificacao = "Dentro do intervalo esperado (±1 desvio padrão).";
     cor = "green";
-  } 
-  else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
+  } else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
     classificacao = "Variação moderada (entre 1 e 2 desvios padrão).";
     cor = "orange";
-  } 
-  else {
+  } else {
     classificacao = "Alteração significativa (>2 desvios padrão).";
     cor = "red";
   }
-
-  const intervaloLatMin = (mediaLat - sdLat).toFixed(1);
-  const intervaloLatMax = (mediaLat + sdLat).toFixed(1);
-
-  const intervaloAmpMin = (mediaAmp - sdAmp).toFixed(1);
-  const intervaloAmpMax = (mediaAmp + sdAmp).toFixed(1);
 
   const diagnostico = `
 Resultado para ${nome}:
@@ -608,78 +594,54 @@ Resultado para ${nome}:
 Faixa etária: ${faixa}
 
 Latência informada: ${latencia} ms
-Intervalo esperado: ${intervaloLatMin} – ${intervaloLatMax} ms
+Intervalo esperado: ${(mediaLat-sdLat).toFixed(1)} – ${(mediaLat+sdLat).toFixed(1)} ms
 
 Amplitude informada: ${amplitude} μV
-Intervalo esperado: ${intervaloAmpMin} – ${intervaloAmpMax} μV
+Intervalo esperado: ${(mediaAmp-sdAmp).toFixed(1)} – ${(mediaAmp+sdAmp).toFixed(1)} μV
 
 Z-score Latência: ${zLat.toFixed(2)}
 Z-score Amplitude: ${zAmp.toFixed(2)}
 
 Classificação: ${classificacao}
 
-⚠ Sistema com finalidade educacional. Não substitui avaliação clínica especializada.
+⚠ Sistema educativo. Não substitui avaliação clínica.
 `;
 
   const diagnosticoElemento = document.getElementById('diagnostico');
   diagnosticoElemento.innerText = diagnostico;
   diagnosticoElemento.style.color = cor;
 
-// ===============================
-// EXPORTAR RESULTADO
-// ===============================
-
-document.getElementById("exportarBtn").addEventListener("click", function () {
-
-  const texto = document.getElementById("diagnostico").innerText;
-
-  if (!texto.trim()) {
-    alert("Nenhum resultado para exportar.");
-    return;
-  }
-
-  const blob = new Blob([texto], { type: "text/plain" });
-  const link = document.createElement("a");
-
-  link.href = URL.createObjectURL(blob);
-  link.download = "Relatorio_ERP.txt";
-  link.click();
-
+  this.reset();
 });
 
 // ===============================
-// RESETAR SISTEMA
+// BOTÃO EXPORTAR
 // ===============================
+document.getElementById("exportarBtn").addEventListener("click", function () {
+  const texto = document.getElementById("diagnostico").innerText;
+  if (!texto.trim()) { alert("Nenhum resultado para exportar."); return; }
 
+  const blob = new Blob([texto], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Relatorio_ERP.txt";
+  link.click();
+});
+
+// ===============================
+// BOTÃO RESETAR
+// ===============================
 document.getElementById("resetarBtn").addEventListener("click", function () {
-
-  // Limpa dados do participante
   erpChart.data.datasets[2].data = Array(faixas.length).fill(null);
   erpChart.data.datasets[3].data = Array(faixas.length).fill(null);
-
   erpChart.update();
 
-  // Limpa diagnóstico
   const diagnosticoElemento = document.getElementById("diagnostico");
   diagnosticoElemento.innerText = "";
   diagnosticoElemento.style.color = "black";
 
+  document.getElementById("dataForm").reset();
 });
-
-
-
-  // ===============================
-  // ATUALIZA LINHA DO PARTICIPANTE
-  // ===============================
-
-  erpChart.data.datasets[2].data[index] = latencia;
-  erpChart.data.datasets[3].data[index] = amplitude;
-
-  erpChart.update();
-
-  this.reset();
-});
-
 
 
     
@@ -973,6 +935,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
