@@ -548,17 +548,64 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
   erpChart.data.datasets[0].data[index] = latencia;   // Latência
   erpChart.data.datasets[1].data[index] = amplitude;  // Amplitude
 
-  // Diagnóstico automatizado simples
-  let diagnostico = '';
+// ===============================
+// Diagnóstico comparativo avançado
+// ===============================
 
-  if (latencia > 350 || amplitude < 6) {
-    diagnostico = `Alerta: Os valores de latência (${latencia} ms) e/ou amplitude (${amplitude} μV) estão fora da faixa típica esperada. Recomendável avaliação mais aprofundada.`;
-  } else {
-    diagnostico = `Os valores de latência (${latencia} ms) e amplitude (${amplitude} μV) estão dentro dos parâmetros médios esperados para a faixa etária de ${faixa}.`;
-  }
+let diagnostico = '';
 
-  document.getElementById('diagnostico').innerText =
-    `Resultado para ${nome}:\n${diagnostico}`;
+// Pega a média da faixa etária antes da atualização
+const mediaLatencia = chartData.datasets[0].data[index];
+const mediaAmplitude = chartData.datasets[1].data[index];
+
+// Calcula variação percentual
+const varLat = ((latencia - mediaLatencia) / mediaLatencia) * 100;
+const varAmp = ((amplitude - mediaAmplitude) / mediaAmplitude) * 100;
+
+// Classificação
+if (Math.abs(varLat) <= 10 && Math.abs(varAmp) <= 10) {
+
+  diagnostico = `
+Os valores encontram-se próximos à média esperada para a faixa etária (${faixa}).
+Variação de Latência: ${varLat.toFixed(1)}%.
+Variação de Amplitude: ${varAmp.toFixed(1)}%.
+
+Não há indícios imediatos de alteração funcional significativa no componente ERP avaliado.
+`;
+
+} else if (Math.abs(varLat) <= 20 && Math.abs(varAmp) <= 20) {
+
+  diagnostico = `
+Observa-se variação moderada em relação à média normativa da faixa (${faixa}).
+Variação de Latência: ${varLat.toFixed(1)}%.
+Variação de Amplitude: ${varAmp.toFixed(1)}%.
+
+Recomenda-se monitoramento e, caso existam manifestações clínicas associadas,
+avaliação neuropsicológica complementar.
+`;
+
+} else {
+
+  diagnostico = `
+A diferença observada em relação à média da faixa etária (${faixa}) é significativa.
+Variação de Latência: ${varLat.toFixed(1)}%.
+Variação de Amplitude: ${varAmp.toFixed(1)}%.
+
+Pode indicar alteração no processamento cognitivo relacionado ao componente ERP analisado.
+Sugere-se avaliação especializada por profissional habilitado.
+`;
+
+}
+
+// Aviso científico
+diagnostico += `
+
+⚠ Este sistema possui caráter educativo e não substitui avaliação clínica especializada.
+`;
+
+document.getElementById('diagnostico').innerText =
+  `Resultado para ${nome}:\n${diagnostico}`;
+
 
   // Atualiza o gráfico com animação suave
   erpChart.update();
@@ -685,6 +732,7 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
 
 </body>
 </html>
+
 
 
 
