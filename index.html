@@ -465,8 +465,9 @@ width: 100%;
     Simulação com dados baseados em literatura neurocientífica sobre ERP
   </div>
 
-<script>
 
+
+<script>
 // ===============================
 // CONFIGURAÇÃO DO GRÁFICO
 // ===============================
@@ -482,6 +483,7 @@ const bancoNormativo = {
   amplitudeSD:    [2, 2, 2, 2, 2, 1.5, 1.5]
 };
 
+// Configuração inicial do Chart.js
 const config = {
   type: 'line',
   data: {
@@ -507,7 +509,10 @@ const config = {
         borderColor: 'darkred',
         borderDash: [5,5],
         tension: 0.3,
-        yAxisID: 'y1'
+        yAxisID: 'y1',
+        showLine: true, // linha conectando pontos
+        pointRadius: 7,
+        pointBackgroundColor: 'darkred'
       },
       {
         label: 'Participante - Amplitude',
@@ -515,7 +520,10 @@ const config = {
         borderColor: 'darkblue',
         borderDash: [5,5],
         tension: 0.3,
-        yAxisID: 'y2'
+        yAxisID: 'y2',
+        showLine: true, // linha conectando pontos
+        pointRadius: 7,
+        pointBackgroundColor: 'darkblue'
       }
     ]
   },
@@ -559,7 +567,9 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
   const index = faixas.indexOf(faixa);
   if (index === -1) { alert("Faixa etária inválida!"); return; }
 
-  // Atualiza linha do participante
+  // ===============================
+  // Atualiza dados do participante
+  // ===============================
   erpChart.data.datasets[2].data[index] = latencia;
   erpChart.data.datasets[3].data[index] = amplitude;
   erpChart.update();
@@ -935,6 +945,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
