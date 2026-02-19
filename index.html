@@ -467,6 +467,15 @@ const ctx = document.getElementById('erpChart').getContext('2d');
 
 const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
 
+// ===============================
+// Médias normativas FIXAS (não alteradas)
+// ===============================
+
+const mediasNormativas = {
+  latencia: [280, 250, 270, 290, 310, 340, 370],
+  amplitude: [12, 14, 13, 11, 10, 8, 6]
+};
+
 const chartData = {
   labels: faixas,
   datasets: [
@@ -552,11 +561,15 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
 // Diagnóstico comparativo avançado
 // ===============================
 
+// ===============================
+// Diagnóstico comparativo correto
+// ===============================
+
 let diagnostico = '';
 
-// 🔥 PEGA A MÉDIA ANTES DA ATUALIZAÇÃO
-const mediaLatencia = erpChart.data.datasets[0].data[index];
-const mediaAmplitude = erpChart.data.datasets[1].data[index];
+// 🔥 Pega a média do banco FIXO (não do gráfico!)
+const mediaLatencia = mediasNormativas.latencia[index];
+const mediaAmplitude = mediasNormativas.amplitude[index];
 
 // Calcula variação percentual
 const varLat = ((latencia - mediaLatencia) / mediaLatencia) * 100;
@@ -596,7 +609,6 @@ Sugere-se avaliação especializada.
 
 }
 
-// ⚠ Aviso científico
 diagnostico += `
 
 ⚠ Este sistema possui caráter educativo e não substitui avaliação clínica especializada.
@@ -606,10 +618,19 @@ document.getElementById('diagnostico').innerText =
   `Resultado para ${nome}:\n${diagnostico}`;
 
 
-  // Atualiza o gráfico com animação suave
-  erpChart.update();
 
-  this.reset();
+// ===============================
+// Atualiza o gráfico com os novos valores
+// ===============================
+
+erpChart.data.datasets[0].data[index] = latencia;   // Atualiza latência
+erpChart.data.datasets[1].data[index] = amplitude;  // Atualiza amplitude
+
+erpChart.update(); // Atualiza visualmente o gráfico
+
+// Limpa o formulário
+this.reset();
+
 });
 
   
@@ -731,6 +752,7 @@ document.getElementById('diagnostico').innerText =
 
 </body>
 </html>
+
 
 
 
