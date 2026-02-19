@@ -463,6 +463,87 @@ width: 100%;
   </div>
 
   <script>
+const ctx = document.getElementById('erpChart').getContext('2d');
+
+const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
+
+const chartData = {
+  labels: faixas,
+  datasets: [
+    {
+      label: 'Latência (ms)',
+      data: [280, 250, 270, 290, 310, 340, 370],
+      borderColor: 'red',
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      yAxisID: 'y1',
+      tension: 0.3,
+      pointRadius: 5,
+      pointHoverRadius: 8
+    },
+    {
+      label: 'Amplitude (μV)',
+      data: [12, 14, 13, 11, 10, 8, 6],
+      borderColor: 'blue',
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      yAxisID: 'y2',
+      tension: 0.3,
+      pointRadius: 5,
+      pointHoverRadius: 8
+    }
+  ]
+};
+
+const config = {
+  type: 'line',
+  data: chartData,
+  options: {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    plugins: {
+      tooltip: { mode: 'nearest' }
+    },
+    scales: {
+      y1: {
+        type: 'linear',
+        position: 'left',
+        title: { display: true, text: 'Latência (ms)' },
+        min: 200,
+        max: 400
+      },
+      y2: {
+        type: 'linear',
+        position: 'right',
+        title: { display: true, text: 'Amplitude (μV)' },
+        min: 0,
+        max: 20,
+        grid: { drawOnChartArea: false }
+      }
+    }
+  }
+};
+
+const erpChart = new Chart(ctx, config);
+
+document.getElementById('dataForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const nome = document.getElementById('nome').value;
+  const faixa = document.getElementById('faixa').value;
+  const latencia = parseFloat(document.getElementById('latencia').value);
+  const amplitude = parseFloat(document.getElementById('amplitude').value);
+
+  const index = faixas.indexOf(faixa);
+
+  if (index === -1) {
+    alert("Faixa etária inválida!");
+    return;
+  }
+
+  
+  /*
     const ctx = document.getElementById('erpChart').getContext('2d');
 
     const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
@@ -575,10 +656,12 @@ width: 100%;
       erpChart.update();
       this.reset();
     });
+    */
   </script>
 
 </body>
 </html>
+
 
 
 
