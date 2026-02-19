@@ -554,9 +554,9 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
 
 let diagnostico = '';
 
-// Pega a média da faixa etária antes da atualização
-const mediaLatencia = chartData.datasets[0].data[index];
-const mediaAmplitude = chartData.datasets[1].data[index];
+// 🔥 PEGA A MÉDIA ANTES DA ATUALIZAÇÃO
+const mediaLatencia = erpChart.data.datasets[0].data[index];
+const mediaAmplitude = erpChart.data.datasets[1].data[index];
 
 // Calcula variação percentual
 const varLat = ((latencia - mediaLatencia) / mediaLatencia) * 100;
@@ -580,8 +580,7 @@ Observa-se variação moderada em relação à média normativa da faixa (${faix
 Variação de Latência: ${varLat.toFixed(1)}%.
 Variação de Amplitude: ${varAmp.toFixed(1)}%.
 
-Recomenda-se monitoramento e, caso existam manifestações clínicas associadas,
-avaliação neuropsicológica complementar.
+Recomenda-se monitoramento e avaliação complementar se houver sintomas clínicos associados.
 `;
 
 } else {
@@ -591,13 +590,13 @@ A diferença observada em relação à média da faixa etária (${faixa}) é sig
 Variação de Latência: ${varLat.toFixed(1)}%.
 Variação de Amplitude: ${varAmp.toFixed(1)}%.
 
-Pode indicar alteração no processamento cognitivo relacionado ao componente ERP analisado.
-Sugere-se avaliação especializada por profissional habilitado.
+Pode indicar alteração no processamento cognitivo relacionado ao ERP analisado.
+Sugere-se avaliação especializada.
 `;
 
 }
 
-// Aviso científico
+// ⚠ Aviso científico
 diagnostico += `
 
 ⚠ Este sistema possui caráter educativo e não substitui avaliação clínica especializada.
@@ -732,6 +731,7 @@ document.getElementById('diagnostico').innerText =
 
 </body>
 </html>
+
 
 
 
