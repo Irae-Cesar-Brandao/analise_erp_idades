@@ -468,6 +468,7 @@ width: 100%;
 
 
 
+
 <script>
 // ===============================
 // CONFIGURAÇÃO DO GRÁFICO
@@ -511,7 +512,7 @@ const config = {
         borderDash: [5,5],
         tension: 0.3,
         yAxisID: 'y1',
-        showLine: true, // linha conectando pontos
+        showLine: true,
         pointRadius: 7,
         pointBackgroundColor: 'darkred'
       },
@@ -522,7 +523,7 @@ const config = {
         borderDash: [5,5],
         tension: 0.3,
         yAxisID: 'y2',
-        showLine: true, // linha conectando pontos
+        showLine: true,
         pointRadius: 7,
         pointBackgroundColor: 'darkblue'
       }
@@ -576,7 +577,7 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
   erpChart.update();
 
   // ===============================
-  // Diagnóstico automático
+  // Diagnóstico automático detalhado
   // ===============================
   const mediaLat = bancoNormativo.latenciaMedia[index];
   const sdLat = bancoNormativo.latenciaSD[index];
@@ -586,37 +587,101 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
   const zLat = (latencia - mediaLat) / sdLat;
   const zAmp = (amplitude - mediaAmp) / sdAmp;
 
-  let classificacao = "", cor = "";
+  let diagnostico = "";
+  let cor = "";
 
+  // 1️⃣ Valores próximos à média (±1 desvio padrão)
   if (Math.abs(zLat) <= 1 && Math.abs(zAmp) <= 1) {
-    classificacao = "Dentro do intervalo esperado (±1 desvio padrão).";
     cor = "green";
-  } else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
-    classificacao = "Variação moderada (entre 1 e 2 desvios padrão).";
-    cor = "orange";
-  } else {
-    classificacao = "Alteração significativa (>2 desvios padrão).";
-    cor = "red";
-  }
-
-  const diagnostico = `
+    diagnostico = `
 Resultado para ${nome}:
 
 Faixa etária: ${faixa}
 
 Latência informada: ${latencia} ms
-Intervalo esperado: ${(mediaLat-sdLat).toFixed(1)} – ${(mediaLat+sdLat).toFixed(1)} ms
+Intervalo esperado: ${(mediaLat - sdLat).toFixed(1)} – ${(mediaLat + sdLat).toFixed(1)} ms
 
 Amplitude informada: ${amplitude} μV
-Intervalo esperado: ${(mediaAmp-sdAmp).toFixed(1)} – ${(mediaAmp+sdAmp).toFixed(1)} μV
+Intervalo esperado: ${(mediaAmp - sdAmp).toFixed(1)} – ${(mediaAmp + sdAmp).toFixed(1)} μV
 
 Z-score Latência: ${zLat.toFixed(2)}
 Z-score Amplitude: ${zAmp.toFixed(2)}
 
-Classificação: ${classificacao}
+Classificação: Valores dentro do intervalo esperado (±1 desvio padrão).
 
-⚠ **AVISO:** Este sistema é **experimental, acadêmico e destinado a fins didáticos e educativos**. 
-Não substitui avaliação clínica especializada (e.g., psicológica ou médica profissional). ⚠️ 
+Interpretação: 
+- Processamento cognitivo consistente com normas.
+- Pequenas variações são normais e não indicam comprometimento.
+
+Recomendações:
+- Acompanhamento de rotina.
+- Nenhuma intervenção específica necessária neste momento.
+`;
+  } 
+  // 2️⃣ Variação moderada (1–2 desvios padrão)
+  else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
+    cor = "orange";
+    diagnostico = `
+Resultado para ${nome}:
+
+Faixa etária: ${faixa}
+
+Latência informada: ${latencia} ms
+Intervalo esperado: ${(mediaLat - sdLat).toFixed(1)} – ${(mediaLat + sdLat).toFixed(1)} ms
+
+Amplitude informada: ${amplitude} μV
+Intervalo esperado: ${(mediaAmp - sdAmp).toFixed(1)} – ${(mediaAmp + sdAmp).toFixed(1)} μV
+
+Z-score Latência: ${zLat.toFixed(2)}
+Z-score Amplitude: ${zAmp.toFixed(2)}
+
+Classificação: Variação moderada (entre 1 e 2 desvios padrão).
+
+Interpretação:
+- Pode refletir variações individuais, atenção, fadiga ou pequenas alterações funcionais.
+- Não necessariamente indica patologia, mas merece atenção.
+
+Recomendações:
+- Monitoramento regular e reavaliação em 3–6 meses.
+- Avaliação complementar se houver sintomas clínicos associados.
+- Registrar fatores contextuais que possam influenciar resultados.
+`;
+  } 
+  // 3️⃣ Alteração significativa (>2 desvios padrão)
+  else {
+    cor = "red";
+    diagnostico = `
+Resultado para ${nome}:
+
+Faixa etária: ${faixa}
+
+Latência informada: ${latencia} ms
+Intervalo esperado: ${(mediaLat - sdLat).toFixed(1)} – ${(mediaLat + sdLat).toFixed(1)} ms
+
+Amplitude informada: ${amplitude} μV
+Intervalo esperado: ${(mediaAmp - sdAmp).toFixed(1)} – ${(mediaAmp + sdAmp).toFixed(1)} μV
+
+Z-score Latência: ${zLat.toFixed(2)}
+Z-score Amplitude: ${zAmp.toFixed(2)}
+
+Classificação: Alteração significativa (>2 desvios padrão).
+
+Interpretação:
+- Sugere possível alteração no processamento cognitivo.
+- Necessário avaliação especializada; não é diagnóstico isolado.
+
+Recomendações:
+- Encaminhamento para avaliação neurológica ou neuropsicológica.
+- Considerar exames complementares ou reavaliação.
+- Registrar detalhadamente histórico clínico e fatores contextuais.
+`;
+  }
+
+  // ⚠ Nota educativa
+  diagnostico += `
+
+⚠️  **AVISO:** Este sistema é **experimental, acadêmico e destinado a fins didáticos e educativos**. 
+Não substitui avaliação clínica especializada (e.g., psicológica ou médica profissional).  
 `;
 
   const diagnosticoElemento = document.getElementById('diagnostico');
@@ -947,6 +1012,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
