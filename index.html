@@ -350,6 +350,71 @@ width: 100%;
     </ul>
 
 </div>
+
+<!-- =============================== -->
+<!-- DIV DE EXPLICAÇÃO ARITMÉTICA ERP -->
+<!-- =============================== -->
+<div style="
+  border: 2px solid #4a90e2; 
+  border-radius: 12px; 
+  padding: 20px; 
+  margin: 20px 0; 
+  background-color: #f0f8ff;
+  font-family: Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+">
+  <h3 style="color:#1a5276;">Cálculo e Interpretação do ERP (Latência e Amplitude)</h3>
+  
+  <p>
+    Este gráfico representa os <strong>Potenciais Relacionados a Eventos (ERP)</strong>, com foco em duas métricas principais:
+    <strong>Latência (ms)</strong> e <strong>Amplitude (μV)</strong>. 
+    Para posicionar um participante no gráfico, utiliza-se o <em>Z-score</em> em relação a um banco normativo da mesma faixa etária.
+  </p>
+  
+  <h4 style="color:#1a5276;">1. Fórmula do Z-score</h4>
+  <p>
+    <strong>Latência:</strong><br>
+    <code>Z<sub>Lat</sub> = (L<sub>p</sub> - L̄) / SD<sub>L</sub></code><br>
+    <strong>Amplitude:</strong><br>
+    <code>Z<sub>Amp</sub> = (A<sub>p</sub> - Ā) / SD<sub>A</sub></code>
+  </p>
+  
+  <h4 style="color:#1a5276;">2. Passo a passo aritmético</h4>
+  <ol>
+    <li>Obter a média (L̄ / Ā) e o desvio padrão (SD<sub>L</sub> / SD<sub>A</sub>) da faixa etária do banco normativo.</li>
+    <li>Subtrair a média do valor medido pelo participante.</li>
+    <li>Dividir a diferença pelo desvio padrão correspondente.</li>
+    <li>Interpretar o Z-score:
+      <ul>
+        <li>|Z| ≤ 1 → Dentro do esperado</li>
+        <li>1 < |Z| ≤ 2 → Variação moderada</li>
+        <li>|Z| > 2 → Alteração significativa</li>
+      </ul>
+    </li>
+    <li>Plotar os valores no gráfico de Latência e Amplitude do participante.</li>
+  </ol>
+
+  <h4 style="color:#1a5276;">3. Exemplo numérico</h4>
+  <p>
+    Latência medida: 290 ms<br>
+    Média normativa: 270 ms<br>
+    Desvio padrão: 15 ms<br>
+    <strong>Z<sub>Lat</sub> = (290 - 270) / 15 = 1,33</strong> → Variação moderada
+  </p>
+  <p>
+    Amplitude medida: 11 μV<br>
+    Média normativa: 13 μV<br>
+    Desvio padrão: 2 μV<br>
+    <strong>Z<sub>Amp</sub> = (11 - 13) / 2 = -1</strong> → Dentro do esperado
+  </p>
+
+  <h4 style="color:#1a5276;">Referência científica</h4>
+  <p>
+    Luck, S. J. (2014). <em>Introduction to the Event-Related Potential Technique</em> (2nd ed.). MIT Press.<br>
+    - Explica conceitos de latência, amplitude e uso de Z-scores para interpretação de ERP.
+  </p>
+</div>
   <!--///////////////////////////////////////////-->
 
 <!-- Container principal: Público interessado no sistema ERP -->
@@ -1012,6 +1077,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
