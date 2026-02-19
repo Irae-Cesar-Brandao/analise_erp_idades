@@ -462,8 +462,183 @@ width: 100%;
     Simulação com dados baseados em literatura neurocientífica sobre ERP
   </div>
 
-  <script>
+<script>
+
 const ctx = document.getElementById('erpChart').getContext('2d');
+
+const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
+
+// ===============================
+// BANCO NORMATIVO (MÉDIA + SD)
+// ===============================
+
+const bancoNormativo = {
+  latenciaMedia: [280, 250, 270, 290, 310, 340, 370],
+  latenciaSD:    [15, 15, 18, 20, 22, 25, 30],
+
+  amplitudeMedia: [12, 14, 13, 11, 10, 8, 6],
+  amplitudeSD:    [2, 2, 2, 2, 2, 1.5, 1.5]
+};
+
+// ===============================
+// CONFIGURAÇÃO DO GRÁFICO
+// ===============================
+
+const config = {
+  type: 'line',
+  data: {
+    labels: faixas,
+    datasets: [
+      {
+        label: 'Latência Média (ms)',
+        data: [...bancoNormativo.latenciaMedia],
+        borderColor: 'red',
+        tension: 0.3,
+        yAxisID: 'y1'
+      },
+      {
+        label: 'Amplitude Média (μV)',
+        data: [...bancoNormativo.amplitudeMedia],
+        borderColor: 'blue',
+        tension: 0.3,
+        yAxisID: 'y2'
+      },
+      {
+        label: 'Participante - Latência',
+        data: Array(faixas.length).fill(null),
+        borderColor: 'darkred',
+        borderDash: [5,5],
+        tension: 0.3,
+        yAxisID: 'y1'
+      },
+      {
+        label: 'Participante - Amplitude',
+        data: Array(faixas.length).fill(null),
+        borderColor: 'darkblue',
+        borderDash: [5,5],
+        tension: 0.3,
+        yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y1: {
+        type: 'linear',
+        position: 'left',
+        min: 200,
+        max: 400,
+        title: { display: true, text: 'Latência (ms)' }
+      },
+      y2: {
+        type: 'linear',
+        position: 'right',
+        min: 0,
+        max: 20,
+        grid: { drawOnChartArea: false },
+        title: { display: true, text: 'Amplitude (μV)' }
+      }
+    }
+  }
+};
+
+const erpChart = new Chart(ctx, config);
+
+// ===============================
+// EVENTO SUBMIT
+// ===============================
+
+document.getElementById('dataForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const nome = document.getElementById('nome').value;
+  const faixa = document.getElementById('faixa').value;
+  const latencia = parseFloat(document.getElementById('latencia').value);
+  const amplitude = parseFloat(document.getElementById('amplitude').value);
+
+  const index = faixas.indexOf(faixa);
+
+  if (index === -1) {
+    alert("Faixa etária inválida!");
+    return;
+  }
+
+  // ===============================
+  // COMPARAÇÃO ESTATÍSTICA
+  // ===============================
+
+  const mediaLat = bancoNormativo.latenciaMedia[index];
+  const sdLat = bancoNormativo.latenciaSD[index];
+
+  const mediaAmp = bancoNormativo.amplitudeMedia[index];
+  const sdAmp = bancoNormativo.amplitudeSD[index];
+
+  const zLat = (latencia - mediaLat) / sdLat;
+  const zAmp = (amplitude - mediaAmp) / sdAmp;
+
+  let classificacao = "";
+  let cor = "";
+
+  if (Math.abs(zLat) <= 1 && Math.abs(zAmp) <= 1) {
+    classificacao = "Dentro do intervalo esperado (±1 desvio padrão).";
+    cor = "green";
+  } 
+  else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
+    classificacao = "Variação moderada (entre 1 e 2 desvios padrão).";
+    cor = "orange";
+  } 
+  else {
+    classificacao = "Alteração significativa (>2 desvios padrão).";
+    cor = "red";
+  }
+
+  const intervaloLatMin = (mediaLat - sdLat).toFixed(1);
+  const intervaloLatMax = (mediaLat + sdLat).toFixed(1);
+
+  const intervaloAmpMin = (mediaAmp - sdAmp).toFixed(1);
+  const intervaloAmpMax = (mediaAmp + sdAmp).toFixed(1);
+
+  const diagnostico = `
+Resultado para ${nome}:
+
+Faixa etária: ${faixa}
+
+Latência informada: ${latencia} ms
+Intervalo esperado: ${intervaloLatMin} – ${intervaloLatMax} ms
+
+Amplitude informada: ${amplitude} μV
+Intervalo esperado: ${intervaloAmpMin} – ${intervaloAmpMax} μV
+
+Z-score Latência: ${zLat.toFixed(2)}
+Z-score Amplitude: ${zAmp.toFixed(2)}
+
+Classificação: ${classificacao}
+
+⚠ Sistema com finalidade educacional. Não substitui avaliação clínica especializada.
+`;
+
+  const diagnosticoElemento = document.getElementById('diagnostico');
+  diagnosticoElemento.innerText = diagnostico;
+  diagnosticoElemento.style.color = cor;
+
+  // ===============================
+  // ATUALIZA LINHA DO PARTICIPANTE
+  // ===============================
+
+  erpChart.data.datasets[2].data[index] = latencia;
+  erpChart.data.datasets[3].data[index] = amplitude;
+
+  erpChart.update();
+
+  this.reset();
+});
+
+
+
+    
+   /* 
+    const ctx = document.getElementById('erpChart').getContext('2d');
 
 const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
 
@@ -632,7 +807,7 @@ erpChart.update(); // Atualiza visualmente o gráfico
 this.reset();
 
 });
-
+*/
   
   /*
     const ctx = document.getElementById('erpChart').getContext('2d');
@@ -752,6 +927,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
