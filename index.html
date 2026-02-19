@@ -128,8 +128,11 @@ width: 100%;
 
     <label for="amplitude">Amplitude (μV): Entre 0 a 20</label>
     <input type="number" id="amplitude" min="0" max="20" step="0.1" required>
-
+    
+<!-- BOTÕES DO BROWSER INSERIR, ESPORTAR E RESETAR -->
     <button type="submit">Inserir no Gráfico</button>
+    <button type="button" id="exportarBtn">Exportar Resultado</button>
+    <button type="button" id="resetarBtn">Novo Cálculo</button>
   </form>
 
   <canvas id="erpChart" width="800" height="400"></canvas>
@@ -622,6 +625,49 @@ Classificação: ${classificacao}
   diagnosticoElemento.innerText = diagnostico;
   diagnosticoElemento.style.color = cor;
 
+// ===============================
+// EXPORTAR RESULTADO
+// ===============================
+
+document.getElementById("exportarBtn").addEventListener("click", function () {
+
+  const texto = document.getElementById("diagnostico").innerText;
+
+  if (!texto.trim()) {
+    alert("Nenhum resultado para exportar.");
+    return;
+  }
+
+  const blob = new Blob([texto], { type: "text/plain" });
+  const link = document.createElement("a");
+
+  link.href = URL.createObjectURL(blob);
+  link.download = "Relatorio_ERP.txt";
+  link.click();
+
+});
+
+// ===============================
+// RESETAR SISTEMA
+// ===============================
+
+document.getElementById("resetarBtn").addEventListener("click", function () {
+
+  // Limpa dados do participante
+  erpChart.data.datasets[2].data = Array(faixas.length).fill(null);
+  erpChart.data.datasets[3].data = Array(faixas.length).fill(null);
+
+  erpChart.update();
+
+  // Limpa diagnóstico
+  const diagnosticoElemento = document.getElementById("diagnostico");
+  diagnosticoElemento.innerText = "";
+  diagnosticoElemento.style.color = "black";
+
+});
+
+
+
   // ===============================
   // ATUALIZA LINHA DO PARTICIPANTE
   // ===============================
@@ -927,6 +973,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
