@@ -95,10 +95,16 @@ width: 100%;
   <h2>Comparativo de Faixas Etárias e Inserção de Dados Individuais</h2>
 
   <div class="content-box">
-    <strong>Contexto:</strong> Este gráfico representa variações dos Potenciais Relacionados a Eventos (ERP), com foco em duas métricas principais: <strong>Latência (ms)</strong> e <strong>Amplitude (μV)</strong>. Insira os dados de uma pessoa analisada abaixo para posicioná-la no gráfico.<br>
+    <strong>Contexto:</strong> Este gráfico representa variações dos Potenciais Relacionados a Eventos (ERP), 
+    com foco em duas métricas principais: <strong>Latência (ms)</strong> e <strong>Amplitude (μV)</strong>. 
+    Insira os dados de uma pessoa analisada abaixo para posicioná-la no gráfico.<br>
 <hr>
     <strong>O que significa Event-Related Potentials (ERP) ?</strong> <br>
-(tradução em portugues: - Potenciais Relacionados a Eventos -  são flutuações de voltagem, medidas no couro cabeludo, que estão sincronizadas com um evento específico. Esses eventos podem ser estímulos sensoriais, atividades cognitivas ou até mesmo respostas motoras. Os ERPs são, na realidade, uma medida da atividade cerebral, captada através da eletroencefalografia (EEG), que é analisada para identificar padrões de resposta a determinados estímulos (WOODMAN, 2010). 
+(tradução em portugues: - Potenciais Relacionados a Eventos -  são flutuações de voltagem, 
+    medidas no couro cabeludo, que estão sincronizadas com um evento específico. Esses eventos 
+    podem ser estímulos sensoriais, atividades cognitivas ou até mesmo respostas motoras. Os ERPs são,
+    na realidade, uma medida da atividade cerebral, captada através da eletroencefalografia (EEG), que 
+    é analisada para identificar padrões de resposta a determinados estímulos (WOODMAN, 2010). 
   </div>
 
   <form id="dataForm">
@@ -130,14 +136,120 @@ width: 100%;
 
 
 
-  <div id="diagnostico"></div>
+<div id="diagnostico"></div>
 
-
-  <div class="content-box">
+<div class="content-box">
 <img  src="ERP_img.jpg"   alt="ERPO "   width="500"   height="441"   text-align: "justify  title"/> <br>Fonte: Woodman( 2010). <br> <b>Fig 1: Série de Flutuações de Voltagem</b></img>
 </div>
 
-  <div class="content-box">
+<!-- //////////////////////////////////////-->
+<!-- Container principal sobre ERP -->
+<div class="erp-container">
+
+    <!-- Título da seção -->
+    <h2>Potenciais Relacionados a Eventos (ERP)</h2>
+
+    <!-- Introdução explicativa -->
+    <p>
+        Essa técnica é uma forma especializada de analisar o Eletroencefalograma (EEG).
+        Enquanto o EEG mostra a atividade cerebral contínua, o ERP isola a resposta do
+        cérebro a um estímulo sensorial (ex: um som), cognitivo (ex: leitura de uma palavra)
+        ou motor (ex: apertar um botão).
+    </p>
+
+    <!-- Tabela principal de organização das informações -->
+    <table border="1" cellpadding="10" cellspacing="0" width="100%">
+        
+        <!-- Cabeçalho da tabela -->
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+
+        <!-- Corpo da tabela -->
+        <tbody>
+
+            <!-- Seção: Principais Características -->
+            <tr>
+                <td><strong>Sincronização com o Evento</strong></td>
+                <td>O ERP mede o que acontece no cérebro milissegundos após um estímulo.</td>
+            </tr>
+
+            <tr>
+                <td><strong>Média de Sinais</strong></td>
+                <td>
+                    Como a resposta a um único estímulo é pequena e misturada com o ruído cerebral,
+                    o estímulo é repetido diversas vezes e os sinais são promediados para gerar
+                    uma onda ERP clara.
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>Componentes (Picos)</strong></td>
+                <td>
+                    O ERP é visualizado como um gráfico com picos positivos (P) e negativos (N).
+                    O número (ex: P300) indica o tempo aproximado, em milissegundos, em que ocorre.
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>Alta Resolução Temporal</strong></td>
+                <td>
+                    Permite identificar quando o cérebro processa informações com precisão de milissegundos.
+                </td>
+            </tr>
+
+            <!-- Seção: Componentes ERP Famosos -->
+            <tr>
+                <td><strong>N170</strong></td>
+                <td>Relacionado ao processamento visual de faces.</td>
+            </tr>
+
+            <tr>
+                <td><strong>P300</strong></td>
+                <td>Associado à atenção, memória e detecção de estímulos relevantes ou inesperados.</td>
+            </tr>
+
+            <tr>
+                <td><strong>N400</strong></td>
+                <td>
+                    Associado ao processamento de linguagem e significado semântico,
+                    especialmente quando há incongruência contextual.
+                </td>
+            </tr>
+
+            <!-- Seção: Aplicações -->
+            <tr>
+                <td><strong>Neurociência Cognitiva</strong></td>
+                <td>
+                    Estudo de percepção, atenção, memória e linguagem.
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>Diagnóstico Clínico</strong></td>
+                <td>
+                    Investigação de distúrbios neurológicos e psiquiátricos,
+                    identificando anomalias no funcionamento cerebral.
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>Interfaces Cérebro-Máquina (BCI)</strong></td>
+                <td>
+                    Permitem controlar dispositivos através de intenções motoras ou cognitivas.
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+  <!--/////////////////////////////////////////////////-->
+
+<div class="content-box">
     <strong>Referências Bibliográficas:</strong>
     <ul style="padding-left: 20px; text-align: justify; line-height: 1.6;">
       <li>
@@ -279,3 +391,4 @@ width: 100%;
 
 </body>
 </html>
+
