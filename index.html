@@ -366,13 +366,25 @@ width: 100%;
 ">
   <h3 style="color:#1a5276;">Cálculo e Interpretação do ERP (Latência e Amplitude)</h3>
   
+  <h4 style="color:#1a5276;">Valores coletados</h4>
   <p>
-    Este gráfico representa os <strong>Potenciais Relacionados a Eventos (ERP)</strong>, com foco em duas métricas principais:
-    <strong>Latência (ms)</strong> e <strong>Amplitude (μV)</strong>. 
-    Para posicionar um participante no gráfico, utiliza-se o <em>Z-score</em> em relação a um banco normativo da mesma faixa etária.
+    Você tem os seguintes dados do participante:
   </p>
-  
-  <h4 style="color:#1a5276;">1. Fórmula do Z-score</h4>
+  <p>
+    Latência medida: <strong>L<sub>p</sub></strong> (ms)<br>
+    Amplitude medida: <strong>A<sub>p</sub></strong> (μV)
+  </p>
+  <p>
+    E você tem o <strong>banco normativo</strong> para a mesma faixa etária:
+  </p>
+  <p>
+    Latência média: <strong> L̄ </strong><br>
+    Desvio padrão da latência: <strong> SD<sub>L</sub> </strong><br>
+    Amplitude média: <strong> Ā </strong><br>
+    Desvio padrão da amplitude: <strong> SD<sub>A</sub> </strong>
+  </p>
+
+  <h4 style="color:#1a5276;">a) Fórmula do Z-score</h4>
   <p>
     <strong>Latência:</strong><br>
     <code>Z<sub>Lat</sub> = (L<sub>p</sub> - L̄) / SD<sub>L</sub></code><br>
@@ -380,22 +392,22 @@ width: 100%;
     <code>Z<sub>Amp</sub> = (A<sub>p</sub> - Ā) / SD<sub>A</sub></code>
   </p>
   
-  <h4 style="color:#1a5276;">2. Passo a passo aritmético</h4>
-  <ol>
+  <h4 style="color:#1a5276;">b) Passo a passo aritmético</h4>
+  <ol type="a">
     <li>Obter a média (L̄ / Ā) e o desvio padrão (SD<sub>L</sub> / SD<sub>A</sub>) da faixa etária do banco normativo.</li>
     <li>Subtrair a média do valor medido pelo participante.</li>
     <li>Dividir a diferença pelo desvio padrão correspondente.</li>
     <li>Interpretar o Z-score:
-      <ul>
-        <li>|Z| ≤ 1 → Dentro do esperado</li>
-        <li>1 < |Z| ≤ 2 → Variação moderada</li>
-        <li>|Z| > 2 → Alteração significativa</li>
+      <ul style="list-style-type:none;">
+        <li>– |Z| ≤ 1 → Dentro do esperado</li>
+        <li>– 1 < |Z| ≤ 2 → Variação moderada</li>
+        <li>– |Z| > 2 → Alteração significativa</li>
       </ul>
     </li>
     <li>Plotar os valores no gráfico de Latência e Amplitude do participante.</li>
   </ol>
 
-  <h4 style="color:#1a5276;">3. Exemplo numérico</h4>
+  <h4 style="color:#1a5276;">c) Exemplo numérico</h4>
   <p>
     Latência medida: 290 ms<br>
     Média normativa: 270 ms<br>
@@ -409,7 +421,7 @@ width: 100%;
     <strong>Z<sub>Amp</sub> = (11 - 13) / 2 = -1</strong> → Dentro do esperado
   </p>
 
-  <h4 style="color:#1a5276;">Referência científica</h4>
+  <h4 style="color:#1a5276;">d) Referência científica</h4>
   <p>
     Luck, S. J. (2014). <em>Introduction to the Event-Related Potential Technique</em> (2nd ed.). MIT Press.<br>
     - Explica conceitos de latência, amplitude e uso de Z-scores para interpretação de ERP.
@@ -1077,6 +1089,7 @@ this.reset();
 
 </body>
 </html>
+
 
 
 
