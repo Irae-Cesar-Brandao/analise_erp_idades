@@ -542,6 +542,30 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
     return;
   }
 
+  // 🔥 AQUI ESTÁ A CORREÇÃO PRINCIPAL:
+  // Atualiza os valores das linhas existentes
+
+  erpChart.data.datasets[0].data[index] = latencia;   // Latência
+  erpChart.data.datasets[1].data[index] = amplitude;  // Amplitude
+
+  // Diagnóstico automatizado simples
+  let diagnostico = '';
+
+  if (latencia > 350 || amplitude < 6) {
+    diagnostico = `Alerta: Os valores de latência (${latencia} ms) e/ou amplitude (${amplitude} μV) estão fora da faixa típica esperada. Recomendável avaliação mais aprofundada.`;
+  } else {
+    diagnostico = `Os valores de latência (${latencia} ms) e amplitude (${amplitude} μV) estão dentro dos parâmetros médios esperados para a faixa etária de ${faixa}.`;
+  }
+
+  document.getElementById('diagnostico').innerText =
+    `Resultado para ${nome}:\n${diagnostico}`;
+
+  // Atualiza o gráfico com animação suave
+  erpChart.update();
+
+  this.reset();
+});
+
   
   /*
     const ctx = document.getElementById('erpChart').getContext('2d');
@@ -661,6 +685,7 @@ document.getElementById('dataForm').addEventListener('submit', function (e) {
 
 </body>
 </html>
+
 
 
 
