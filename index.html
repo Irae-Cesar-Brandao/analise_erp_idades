@@ -517,38 +517,27 @@ width: 100%;
   
 <div class="content-box">
     <strong>Referências Bibliográficas:</strong>
-    <ul style="padding-left: 20px; text-align: justify; line-height: 1.6;">
-      <li>
+      <h5>
         HANDY, Todd C. (2005). <em><b>Event-Related Potentials </b>: A Methods Handbook</em>.<i> Cambridge: MIT Press</i>. 
 <!--Disponível em: https://pmc.ncbi.nlm.nih.gov/articles/PMC3816929/. Acesso em: 06 mai. 2025.--> 
-      </li>
-      
-      <li>
+     <br>
         KUTAS, Marta; FEDERMEIER, Kara D. (2011). 
         <em><b>Thirty years and counting: Finding meaning in the N400 component of the event-related brain potential (ERP)</b></em>. 
         <i>Annual Review of Psychology</i>, 62, 621–647. 
         DOI: https://doi.org/10.1146/annurev.psych.093008.131123
-      </li>
-      
-      <li>
+      <br>
         LUCK, Steven J.  (2014).<em><b>An Introduction to the Event-Related Potential Technique </b></em>. 2. ed. Cambridge: MIT Press.
-      </li>
-
-      <li>
+      <br>
         POLICH, John (2007). <em><b>Updating P300: An integrative theory of P3a and P3b</b></em>. 
         <i>Clinical Neurophysiology</i>, 118(10), 2128–2148. 
         DOI: https://doi.org/10.1016/j.clinph.2007.04.019
-      </li>
-      
-      <li>
+      <br>
         WOODMAN, Geoffrey F. (2010). <em><i> <b>A brief introduction to the use of event-related 
           potentials in studies of perception and attention </b></i></em>. [online]  
         <i>Attention, perception & psychophysics. USA: National Library of Medicine </i>, 72 (8). pp. 2031–2046. 
         DOI: 10.3758/APP.72.8.2031. PMID: 21097848; PMCID: PMC3816929. 
 <!-- Disponivel em: https://pmc.ncbi.nlm.nih.gov/articles/PMC3816929/. Acesso em: 06 mai.2025. -->
-      </li>
-
-    </ul>
+    </h5>
   </div>
 
 
@@ -813,297 +802,11 @@ document.getElementById("resetarBtn").addEventListener("click", function () {
 });
 
 
-    
-   /* 
-    const ctx = document.getElementById('erpChart').getContext('2d');
-
-const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
-
-// ===============================
-// Médias normativas FIXAS (não alteradas)
-// ===============================
-
-const mediasNormativas = {
-  latencia: [280, 250, 270, 290, 310, 340, 370],
-  amplitude: [12, 14, 13, 11, 10, 8, 6]
-};
-
-const chartData = {
-  labels: faixas,
-  datasets: [
-    {
-      label: 'Latência (ms)',
-      data: [280, 250, 270, 290, 310, 340, 370],
-      borderColor: 'red',
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      yAxisID: 'y1',
-      tension: 0.3,
-      pointRadius: 5,
-      pointHoverRadius: 8
-    },
-    {
-      label: 'Amplitude (μV)',
-      data: [12, 14, 13, 11, 10, 8, 6],
-      borderColor: 'blue',
-      backgroundColor: 'rgba(54, 162, 235, 0.2)',
-      yAxisID: 'y2',
-      tension: 0.3,
-      pointRadius: 5,
-      pointHoverRadius: 8
-    }
-  ]
-};
-
-const config = {
-  type: 'line',
-  data: chartData,
-  options: {
-    responsive: true,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    plugins: {
-      tooltip: { mode: 'nearest' }
-    },
-    scales: {
-      y1: {
-        type: 'linear',
-        position: 'left',
-        title: { display: true, text: 'Latência (ms)' },
-        min: 200,
-        max: 400
-      },
-      y2: {
-        type: 'linear',
-        position: 'right',
-        title: { display: true, text: 'Amplitude (μV)' },
-        min: 0,
-        max: 20,
-        grid: { drawOnChartArea: false }
-      }
-    }
-  }
-};
-
-const erpChart = new Chart(ctx, config);
-
-document.getElementById('dataForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const nome = document.getElementById('nome').value;
-  const faixa = document.getElementById('faixa').value;
-  const latencia = parseFloat(document.getElementById('latencia').value);
-  const amplitude = parseFloat(document.getElementById('amplitude').value);
-
-  const index = faixas.indexOf(faixa);
-
-  if (index === -1) {
-    alert("Faixa etária inválida!");
-    return;
-  }
-
-  // 🔥 AQUI ESTÁ A CORREÇÃO PRINCIPAL:
-  // Atualiza os valores das linhas existentes
-
-  erpChart.data.datasets[0].data[index] = latencia;   // Latência
-  erpChart.data.datasets[1].data[index] = amplitude;  // Amplitude
-
-// ===============================
-// Diagnóstico comparativo avançado
-// ===============================
-
-// ===============================
-// Diagnóstico comparativo correto
-// ===============================
-
-let diagnostico = '';
-
-// 🔥 Pega a média do banco FIXO (não do gráfico!)
-const mediaLatencia = mediasNormativas.latencia[index];
-const mediaAmplitude = mediasNormativas.amplitude[index];
-
-// Calcula variação percentual
-const varLat = ((latencia - mediaLatencia) / mediaLatencia) * 100;
-const varAmp = ((amplitude - mediaAmplitude) / mediaAmplitude) * 100;
-
-// Classificação
-if (Math.abs(varLat) <= 10 && Math.abs(varAmp) <= 10) {
-
-  diagnostico = `
-Os valores encontram-se próximos à média esperada para a faixa etária (${faixa}).
-Variação de Latência: ${varLat.toFixed(1)}%.
-Variação de Amplitude: ${varAmp.toFixed(1)}%.
-
-Não há indícios imediatos de alteração funcional significativa no componente ERP avaliado.
-`;
-
-} else if (Math.abs(varLat) <= 20 && Math.abs(varAmp) <= 20) {
-
-  diagnostico = `
-Observa-se variação moderada em relação à média normativa da faixa (${faixa}).
-Variação de Latência: ${varLat.toFixed(1)}%.
-Variação de Amplitude: ${varAmp.toFixed(1)}%.
-
-Recomenda-se monitoramento e avaliação complementar se houver sintomas clínicos associados.
-`;
-
-} else {
-
-  diagnostico = `
-A diferença observada em relação à média da faixa etária (${faixa}) é significativa.
-Variação de Latência: ${varLat.toFixed(1)}%.
-Variação de Amplitude: ${varAmp.toFixed(1)}%.
-
-Pode indicar alteração no processamento cognitivo relacionado ao ERP analisado.
-Sugere-se avaliação especializada.
-`;
-
-}
-
-diagnostico += `
-
-⚠ Este sistema possui caráter educativo e não substitui avaliação clínica especializada.
-`;
-
-document.getElementById('diagnostico').innerText =
-  `Resultado para ${nome}:\n${diagnostico}`;
-
-
-
-// ===============================
-// Atualiza o gráfico com os novos valores
-// ===============================
-
-erpChart.data.datasets[0].data[index] = latencia;   // Atualiza latência
-erpChart.data.datasets[1].data[index] = amplitude;  // Atualiza amplitude
-
-erpChart.update(); // Atualiza visualmente o gráfico
-
-// Limpa o formulário
-this.reset();
-
-});
-*/
-  
-  /*
-    const ctx = document.getElementById('erpChart').getContext('2d');
-
-    const faixas = ["15-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71+"];
-
-    const chartData = {
-      labels: faixas,
-      datasets: [
-        {
-          label: 'Latência (ms)',
-          data: [280, 250, 270, 290, 310, 340, 370],
-          borderColor: 'red',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          yAxisID: 'y1',
-          tension: 0.3,
-        },
-        {
-          label: 'Amplitude (μV)',
-          data: [12, 14, 13, 11, 10, 8, 6],
-          borderColor: 'blue',
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          yAxisID: 'y2',
-          tension: 0.3,
-        }
-      ]
-    };
-
-    const config = {
-      type: 'line',
-      data: chartData,
-      options: {
-        responsive: true,
-        interaction: {
-          mode: 'index',
-          intersect: false,
-        },
-        plugins: {
-          title: { display: false },
-          tooltip: { mode: 'nearest' }
-        },
-        scales: {
-          y1: {
-            type: 'linear',
-            position: 'left',
-            title: { display: true, text: 'Latência (ms)' },
-            min: 200,
-            max: 400
-          },
-          y2: {
-            type: 'linear',
-            position: 'right',
-            title: { display: true, text: 'Amplitude (μV)' },
-            min: 0,
-            max: 20,
-            grid: { drawOnChartArea: false }
-          }
-        }
-      }
-    };
-
-    const erpChart = new Chart(ctx, config);
-
-    document.getElementById('dataForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const nome = document.getElementById('nome').value;
-      const faixa = document.getElementById('faixa').value;
-      const latencia = parseFloat(document.getElementById('latencia').value);
-      const amplitude = parseFloat(document.getElementById('amplitude').value);
-
-      const index = faixas.indexOf(faixa);
-      if (index === -1) {
-        alert("Faixa etária inválida!");
-        return;
-      }
-
-      erpChart.data.datasets.push({
-        label: `${nome} - Latência`,
-        data: Array(faixas.length).fill(null).map((_, i) => i === index ? latencia : null),
-        borderColor: 'green',
-        backgroundColor: 'green',
-        yAxisID: 'y1',
-        type: 'line',
-        pointStyle: 'circle',
-        pointRadius: 7,
-        showLine: false
-      });
-
-      erpChart.data.datasets.push({
-        label: `${nome} - Amplitude`,
-        data: Array(faixas.length).fill(null).map((_, i) => i === index ? amplitude : null),
-        borderColor: 'purple',
-        backgroundColor: 'purple',
-        yAxisID: 'y2',
-        type: 'line',
-        pointStyle: 'triangle',
-        pointRadius: 7,
-        showLine: false
-      });
-
-      // Diagnóstico automatizado simples
-      let diagnostico = '';
-      if (latencia > 350 || amplitude < 6) {
-        diagnostico = `Alerta: Os valores de latência (${latencia} ms) e/ou amplitude (${amplitude} μV) estão fora da faixa típica esperada. Recomendável avaliação mais aprofundada.`;
-      } else {
-        diagnostico = `Os valores de latência (${latencia} ms) e amplitude (${amplitude} μV) estão dentro dos parâmetros médios esperados para a faixa etária de ${faixa}.`;
-      }
-
-      document.getElementById('diagnostico').innerText = `Resultado para ${nome}:\n${diagnostico}`;
-
-      erpChart.update();
-      this.reset();
-    });
-    */
-  </script>
+</script>
 
 </body>
 </html>
+
 
 
 
