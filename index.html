@@ -106,7 +106,7 @@ width: 100%;
     Insira os dados de uma pessoa analisada abaixo para posicioná-la no gráfico.<br>
 <hr>
     <strong>O que significa Event-Related Potentials (ERP) ?</strong> <br>
-    (tradução em portugues: - Potenciais Relacionados a Eventos -  são flutuações de voltagem, 
+    (tradução em portugues: - Potenciais Relacionados a Eventos) -  são flutuações de voltagem, 
     medidas no couro cabeludo, que estão sincronizadas com um evento específico. Esses eventos 
     podem ser estímulos sensoriais, atividades cognitivas ou até mesmo respostas motoras. Os ERPs são,
     na realidade, uma medida da atividade cerebral, captada através da eletroencefalografia (EEG), que 
@@ -130,10 +130,10 @@ width: 100%;
     </select>
 
     <label for="latencia">Latência (ms): Entre 200 a 500</label>
-    <input type="number" id="latencia" min="200" max="500" required>
+    <input type="number" id="latencia" min="200" max="500" required placeholder="Valores entre 200 a 500">
 
     <label for="amplitude">Amplitude (μV): Entre 0 a 20</label>
-    <input type="number" id="amplitude" min="0" max="20" step="0.1" required>
+    <input type="number" id="amplitude" min="0" max="20" step="0.1" required  required placeholder="Valores entre 200 a 500>
     
   <!-- //////////////////////////////////////-->
   <!-- BOTÕES DO BROWSER INSERIR, ESPORTAR E RESETAR -->
@@ -806,6 +806,7 @@ document.getElementById("resetarBtn").addEventListener("click", function () {
 
 </body>
 </html>
+
 
 
 
