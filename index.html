@@ -551,6 +551,7 @@ width: 100%;
 
 
 <script>
+  
 // ===============================
 // CONFIGURAÇÃO DO GRÁFICO
 // ===============================
@@ -699,7 +700,7 @@ Recomendações:
 - Nenhuma intervenção específica necessária neste momento.
 `;
   } 
-  // 2️⃣ Variação moderada (1–2 desvios padrão)
+  // Variação moderada (1–2 desvios padrão)
   else if (Math.abs(zLat) <= 2 && Math.abs(zAmp) <= 2) {
     cor = "orange";
     diagnostico = `
@@ -728,7 +729,9 @@ Recomendações:
 - Registrar fatores contextuais que possam influenciar resultados.
 `;
   } 
-  // 3️⃣ Alteração significativa (>2 desvios padrão)
+
+  
+  //  Alteração significativa (>2 desvios padrão)
   else {
     cor = "red";
     diagnostico = `
@@ -800,6 +803,25 @@ document.getElementById("resetarBtn").addEventListener("click", function () {
 
   document.getElementById("dataForm").reset();
 });
+
+// ================================================
+//-----  TRAVAR A CÓPIA CONTEÚDO COM REF. AUTOR-----
+// ================================================
+  
+// ---------- BLOQUEAR CLIQUE DIREITO ----------
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault(); // Bloqueia o menu do botão direito
+    alert("Copiar conteúdo não é permitido sem referência ao autor '© 2026 Iraê César Brandão - https://luckway.com.br' .");
+});
+
+// ---------- BLOQUEAR CTRL+C E CTRL+X ----------
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === 'c' || e.key === 'x')) {
+        e.preventDefault(); // Bloqueia copiar e recortar
+        alert("Copiar/Recortar desativado. Cite o autor! '© 2026 Iraê César Brandão - https://luckway.com.br'");
+    }
+});
+
 
 
 </script>
